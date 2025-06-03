@@ -14,49 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import app.phoenixshell.productfinder.model.Anything
 import app.phoenixshell.productfinder.ui.theme.ProductFinderTheme
-import io.github.jan.supabase.auth.Auth
-import io.github.jan.supabase.createSupabaseClient
-import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.postgrest.from
-import kotlinx.serialization.KSerializer
-import kotlinx.serialization.descriptors.PrimitiveKind
-import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
+import org.koin.compose.koinInject
 import java.math.BigDecimal
-
-object BigDecimalSerializer : KSerializer<BigDecimal> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: BigDecimal) {
-        encoder.encodeString(value.toString())
-    }
-
-    override fun deserialize(decoder: Decoder): BigDecimal {
-        return decoder.decodeString().toBigDecimal()
-    }
-}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        //TODO:: Add this do dependancy injection
-        val supabase = createSupabaseClient(
-            supabaseUrl = "https://jnejpqphjplmyvprvryx.supabase.co",
-            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpuZWpwcXBoanBsbXl2cHJ2cnl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4MDcxODMsImV4cCI6MjA2MzM4MzE4M30.jpFTEujc09Hp__EqS2S4muNRnn3fufwDYvkFgBZ-07M"
-        ) {
-            install(Postgrest)
-            install(Auth)
-        }
-
         setContent {
+            val supabase = koinInject<SupabaseClient>()
+
             ProductFinderTheme {
                 LaunchedEffect(key1 = Unit) {
-                    supabase.from("anything").insert(Anything("The 14s", BigDecimal("14.5")))
+                    supabase.from("anything").insert(Anything("The GI", BigDecimal("98.2")))
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
