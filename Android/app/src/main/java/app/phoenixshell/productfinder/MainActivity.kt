@@ -18,6 +18,26 @@ import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import java.math.BigDecimal
+
+object BigDecimalSerializer : KSerializer<BigDecimal> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("BigDecimal", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: BigDecimal) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): BigDecimal {
+        return decoder.decodeString().toBigDecimal()
+    }
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +56,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ProductFinderTheme {
                 LaunchedEffect(key1 = Unit) {
-                    supabase.from("anything").insert(Anything("Welcome there"))
+                    supabase.from("anything").insert(Anything("The 14s", BigDecimal("14.5")))
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->

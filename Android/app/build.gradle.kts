@@ -51,10 +51,10 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    implementation(platform("io.github.jan-tennert.supabase:bom:3.0.0"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    implementation("io.github.jan-tennert.supabase:auth-kt")
-    implementation("io.github.jan-tennert.supabase:realtime-kt")
+    implementation(platform(libs.bom))
+    implementation(libs.postgrest.kt)
+    implementation(libs.auth.kt)
+    implementation(libs.realtime.kt)
 
     implementation(libs.bundles.ktor)
 
