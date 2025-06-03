@@ -58,6 +58,9 @@ dependencies {
 
     implementation(libs.bundles.ktor)
 
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
+    api(libs.koin.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

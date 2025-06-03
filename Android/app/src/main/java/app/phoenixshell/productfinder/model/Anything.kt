@@ -1,6 +1,5 @@
 package app.phoenixshell.productfinder.model
 
-import app.phoenixshell.productfinder.BigDecimalSerializer
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 
