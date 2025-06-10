@@ -4,20 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import app.phoenixshell.productfinder.model.Anything
-import app.phoenixshell.productfinder.ui.theme.ProductFinderTheme
-import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.postgrest.from
-import org.koin.compose.koinInject
-import java.math.BigDecimal
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import app.phoenixshell.productfinder.core.Route
+import app.phoenixshell.productfinder.feature.splash.SplashScreenRoot
+import app.phoenixshell.productfinder.feature.account.CreateAccountRoot
+import app.phoenixshell.productfinder.feature.develop.DevelopScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,36 +18,20 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val supabase = koinInject<SupabaseClient>()
+            val navController = rememberNavController()
 
-            ProductFinderTheme {
-                LaunchedEffect(key1 = Unit) {
-                    supabase.from("anything").insert(Anything("The GI", BigDecimal("98.2")))
+            NavHost(navController = navController, startDestination = Route.Develop) {
+                composable<Route.Develop> {
+                    DevelopScreen(navController)
                 }
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                composable<Route.Splash> {
+                    SplashScreenRoot(navController)
+                }
+                composable<Route.CreateAccount> {
+                    CreateAccountRoot(navController)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProductFinderTheme {
-        Greeting("Android")
     }
 }
