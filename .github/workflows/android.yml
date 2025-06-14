@@ -31,7 +31,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
           name: debug-apk
-          path: app/build/outputs/apk/debug/
+          path: Android/app/build/outputs/apk/debug/
     - name: List files in output directory
       run: ls -R app/build/outputs/apk/
   
